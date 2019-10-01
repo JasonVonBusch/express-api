@@ -1,0 +1,55 @@
+{
+  "private": true,
+  "name": "nds-training-api",
+  "description": "Simple API for the NDS Training Group",
+  "license": "UNLICENSED",
+  "author": "Nelnet NDS Training Group",
+  "contributors": [
+    {
+      "name": "Wayne Ritchie",
+      "email": "wayne.ritchie@nelnet.net"
+    }
+  ],
+  "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon server.ts",
+    "test": "echo \"Error: No tests have been configured yet.\" && exit 1",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.0",
+    "eslint": "^6.1.0",
+    "nodemon": "^1.19.1",
+    "typescript": "^3.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:ndstraininggroup/nds-training-api.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "typescript",
+    "jest",
+    "microservice",
+    "API"
+  ],
+  "engines": {
+    "node": ">= 12.x.x"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      "node_modules/**/node_modules"
+    ],
+    "delay": "3000",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 3030
+    }
+  }
+}

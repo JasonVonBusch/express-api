@@ -1,0 +1,24 @@
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+
+# Dependency directories
+node_modules/
+
+# Build artifacts
+dist/
+build/
+
+# Run Controllers
+.npmrc
+
+# Environment
+.env
+
+# Misc
+.DS_Store
+.history/
