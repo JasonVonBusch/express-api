@@ -1,21 +1,16 @@
-# NDS Training App
+# Sample Express Application
 
 ## Summary
 A simple API using Node.js, Express, and Typescript
 
-
 ### Getting Started
 
-- First off, clone the repository using **SSH** (if you already haven't)
+- Navigate to the _express-api_ directory in the terminal
+- Install npm packages
 ```bash
-git clone git@bitbucket.org:ndstraininggroup/nds-training-api.git
+npm install
 ```
-- Navigate to the _nds-training-api_ directory in the terminal
-- Initialize NPM (from within the project directory) just take the defaults when prompt
-```bash
-npm init
-```
-- Running the project
+- Run the project
 ```bash
 npm start
 ```
