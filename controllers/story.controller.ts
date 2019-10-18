@@ -3,7 +3,7 @@ import { Story } from "../models/story";
 
 class StoryController {
   public router = express.Router();
-  public jsonData = require("../datarepo/storyList.json");
+  public jsonData = require("../resources/storyList.json");
 
   constructor() { 
     this.initializeRoutes();

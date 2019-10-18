@@ -3,7 +3,7 @@ import { Artifact } from "../models/artifact";
 
 class ArtifactController {
   public router = express.Router();
-  public jsonData = require("../datarepo/artifactList.json");
+  public jsonData = require("../resources/artifactList.json");
 
   constructor() { 
     this.initializeRoutes();
