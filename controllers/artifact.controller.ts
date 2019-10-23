@@ -1,9 +1,8 @@
 import * as express from "express";
-import { Artifact } from "../models/artifact";
+import arcData = require("../resources/storyList.json");
 
 class ArtifactController {
   public router = express.Router();
-  public jsonData = require("../resources/artifactList.json");
 
   constructor() { 
     this.initializeRoutes();
@@ -38,7 +37,7 @@ class ArtifactController {
   }
 
   getArtifacts = (request: express.Request, response: express.Response) => {
-    const artifactListSTRING: string = JSON.stringify(this.jsonData);
+    const artifactListSTRING: string = JSON.stringify(arcData);
     response.end(artifactListSTRING);
   }
 
@@ -51,7 +50,7 @@ class ArtifactController {
 
   private GetArtifactArchive() : any {
     //get the json file and parse it into an object for use
-    return JSON.parse(this.jsonData);
+    return JSON.parse(arcData.toString());
   }
 
   private UpdateArtifactArchive(artifactListJSON: any){
