@@ -15,20 +15,21 @@ class StoryController {
     this.router.get("/addstory"   , this.addStory);
     this.router.get("/deletestory", this.deleteStory);
     this.router.get("/getstories" , this.getStories);
-    this.router.get("/getstory" , this.getStory);
+    this.router.get("/getstory"   , this.getStory);
     this.router.get("/updatestory", this.updateStory);
   }
 
   addStory = (request: express.Request, response: express.Response) => {
-    //TODO: update logic to building a new story from the request
-
     //get story information from the existing json file, if it is present
     let storyListJSON = this.GetStoryArchive();
+    let params = this.GetRequestParams(request);
+    let found = this.GetStoryById(params.id);
+
+    if (found) { response.send("error: invalid parameters"); }
 
     //build new story object to be added
-    let nextId = storyListJSON.stories.length + 1;
     let today = new Date(Date.now.toString());
-    let newStory = new Story(nextId, "", today)
+    let newStory = new Story(params.id, params.description, today)
 
     //add the new story to existing ones
     storyListJSON.stories.push(newStory); 
@@ -44,7 +45,7 @@ class StoryController {
     let params = this.GetRequestParams(request);
     let index = storyListJSON.stories.findIndex((x: { id: string; }) => x.id === params.id);
 
-    if (index) {
+    if (index && index > 0) {
       storyListJSON.stories.splice(index, 1);
       this.WriteStoryArchive(storyListJSON);
     } else {
@@ -127,7 +128,7 @@ class StoryController {
       return story.id === Number(id)
     });
 
-    return found;
+    return found = found.id > 0 ? found : null;
   }
 
   private WriteStoryArchive(storyListJSON: any){
