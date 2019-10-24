@@ -1,6 +1,6 @@
-import * as express from "express";
-import { Story }    from "../models/story";
-import { RequestParams }    from "../models/requestParams";
+import * as express      from "express";
+import { Story }         from "../models/story";
+import { RequestParams } from "../models/requestParams";
 import path    = require("path");
 import arcData = require("../resources/storyList.json");
 

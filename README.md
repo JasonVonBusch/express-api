@@ -11,6 +11,7 @@ A simple API using Node.js, Express, and Typescript
 3. run ```npm install``` to install npm packages
 4. run ```npm run tsc``` to compile the typescript files into the dist directory
 4. run ```npm start``` to run the project
-5. open up a new Chrome browser window and navigate to one of the following urls to ensure the application is running (listening on port 5000 by default, this can be changed in the *server.ts* file and running ```npm run tsc```)
+5. open up a new Chrome browser window and navigate to one of the following urls to ensure the application is running (listening on port 5000 by default, this can be changed in the *server.ts* file and running ```npm run tsc``` to compile the changes)
     * [home page](http://localhost:5000/)
     * [about page](http://localhost:5000/about)
+    * [story information](http://localhost:5000/getstories)
