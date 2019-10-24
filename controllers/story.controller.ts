@@ -33,26 +33,39 @@ class StoryController {
     //update artifact for stories
     this.WriteStoryArchive(storyListJSON);
 
-    response.end(JSON.stringify(storyListJSON));
+    response.send(JSON.stringify(storyListJSON));
   }
 
   deleteStory = (request: express.Request, response: express.Response) => {
     let storyListJSON = this.GetStoryArchive();
-    //perform commands to do the delete
-    this.WriteStoryArchive(storyListJSON);
-    response.end(storyListJSON);
+    let params = this.GetRequestParams(request);
+    let index = storyListJSON.stories.findIndex((x: { id: string; }) => x.id === params.id);
+
+    if (index) {
+      storyListJSON.stories.splice(index, 1);
+      this.WriteStoryArchive(storyListJSON);
+    } else {
+      response.send("error: invalid parameters");
+    }
+
+    //respond with latest information, updated or not
+    response.send(JSON.stringify(storyListJSON));
   }
 
   getStories = (request: express.Request, response: express.Response) => {
     const storyListSTRING: string = JSON.stringify(arcData);
-    response.end(storyListSTRING);
+    response.send(storyListSTRING);
   }
 
   getStory = (request: express.Request, response: express.Response) => {
     let params = this.GetRequestParams(request);
     let found = this.GetStoryById(params.id);
 
-    response.end(JSON.stringify(found));
+    if (found) {
+      response.send(JSON.stringify(found));
+    } else {
+      response.send("error: invalid parameters");
+    }
   }
 
   updateStory = (request: express.Request, response: express.Response) => {
@@ -61,29 +74,29 @@ class StoryController {
     let found = this.GetStoryById(params.id);
 
     if (found) {
-      console.log("story was found, updating...");
+      console.log("success: story was found, updating...");
       for (let idx = 0; idx < storyListJSON.stories.length; idx++) {
         if (storyListJSON.stories[idx].id === found.id) {
           storyListJSON.stories[idx].description = params.description !== null
                                                  ? params.description
                                                  : storyListJSON.stories[idx].description
           storyListJSON.stories[idx].timeStamp = Date.now.toString()
-          console.log("story updated!");
+          console.log("success: story updated!");
         }
       }
       //update existing artifact
       this.WriteStoryArchive(storyListJSON);
     } else {
-      return response.send("error: story not found")
+      return response.send("error: invalid parameters");
     }
 
     //respond with latest information, updated or not
-    response.end(JSON.stringify(storyListJSON));
+    response.send(JSON.stringify(storyListJSON));
   }
 
   //#region Private Routines
   private GetRequestParams(request: express.Request) : RequestParams {
-    let params : RequestParams;
+    let params = new RequestParams();
     params.id = request.query.id !== null || request.query.id !== undefined
               ? request.query.id
               : null;
