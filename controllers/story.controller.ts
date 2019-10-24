@@ -1,5 +1,6 @@
 import * as express from "express";
 import { Story }    from "../models/story";
+import { RequestParams }    from "../models/requestParams";
 import path    = require("path");
 import arcData = require("../resources/storyList.json");
 
@@ -47,35 +48,70 @@ class StoryController {
     response.end(storyListSTRING);
   }
 
+  getStory = (request: express.Request, response: express.Response) => {
+    let params = this.GetRequestParams(request);
+    let found = this.GetStoryById(params.id);
+
+    response.end(JSON.stringify(found));
+  }
+
   updateStory = (request: express.Request, response: express.Response) => {
     let storyListJSON = this.GetStoryArchive();
+    let params = this.GetRequestParams(request);
+    let found = this.GetStoryById(params.id);
 
-    let updateId = request.query.id !== undefined ? request.query.id : -1
-    let found = storyListJSON.stories.find(story => {
-                    return story.id === Number(updateId)
-                  });
-    if(found){
+    if (found) {
       console.log("story was found, updating...");
       for (let idx = 0; idx < storyListJSON.stories.length; idx++) {
         if (storyListJSON.stories[idx].id === found.id) {
-          storyListJSON.stories[idx].description = "changed";
+          storyListJSON.stories[idx].description = params.description !== null
+                                                 ? params.description
+                                                 : storyListJSON.stories[idx].description
+          storyListJSON.stories[idx].timeStamp = Date.now.toString()
           console.log("story updated!");
         }
       }
+      //update existing artifact
+      this.WriteStoryArchive(storyListJSON);
     } else {
       return response.send("error: story not found")
     }
 
-    //perform commands that will update existing records
-    this.WriteStoryArchive(storyListJSON);
+    //respond with latest information, updated or not
     response.end(JSON.stringify(storyListJSON));
   }
 
   //#region Private Routines
+  private GetRequestParams(request: express.Request) : RequestParams {
+    let params : RequestParams;
+    params.id = request.query.id !== null || request.query.id !== undefined
+              ? request.query.id
+              : null;
+
+    params.description = request.query.description !== null || request.query.description !== undefined
+                       ? request.query.description
+                       : null;
+
+    params.location = request.query.location !== null || request.query.location !== undefined
+                       ? request.query.location
+                       : null;
+    return params;
+  }
+
   private GetStoryArchive() : any {
     //get the json file and parse it into an object for use
     const storyListSTRING: string = JSON.stringify(arcData);
     return JSON.parse(storyListSTRING);
+  }
+
+  private GetStoryById(id: string) : any {
+    let storyListJSON = this.GetStoryArchive();
+
+    let found = storyListJSON.stories.find((story: { id: number; }) => {
+      return story.id === Number(id)
+    });
+
+    return found;
   }
 
   private WriteStoryArchive(storyListJSON: any){
