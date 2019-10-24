@@ -15,10 +15,13 @@ class StoryController {
     this.router.get("/addstory"   , this.addStory);
     this.router.get("/deletestory", this.deleteStory);
     this.router.get("/getstories" , this.getStories);
+    this.router.get("/getstory" , this.getStory);
     this.router.get("/updatestory", this.updateStory);
   }
 
   addStory = (request: express.Request, response: express.Response) => {
+    //TODO: update logic to building a new story from the request
+
     //get story information from the existing json file, if it is present
     let storyListJSON = this.GetStoryArchive();
 
@@ -53,8 +56,8 @@ class StoryController {
   }
 
   getStories = (request: express.Request, response: express.Response) => {
-    const storyListSTRING: string = JSON.stringify(arcData);
-    response.send(storyListSTRING);
+    let storyListJSON = this.GetStoryArchive();
+    response.send(JSON.stringify(storyListJSON));
   }
 
   getStory = (request: express.Request, response: express.Response) => {
