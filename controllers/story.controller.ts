@@ -12,11 +12,11 @@ class StoryController {
   }
 
   initializeRoutes() {
-    this.router.get("/addstory"   , this.addStory);
-    this.router.get("/deletestory", this.deleteStory);
-    this.router.get("/getstories" , this.getStories);
-    this.router.get("/getstory"   , this.getStory);
-    this.router.get("/updatestory", this.updateStory);
+    this.router.get("/addstory"      , this.addStory);
+    this.router.get("/deletestory"   , this.deleteStory);
+    this.router.get("/getallstories" , this.getAllStories);
+    this.router.get("/getstory"      , this.getStory);
+    this.router.get("/updatestory"   , this.updateStory);
   }
 
   addStory = (request: express.Request, response: express.Response) => {
@@ -56,7 +56,7 @@ class StoryController {
     response.send(JSON.stringify(storyListJSON));
   }
 
-  getStories = (request: express.Request, response: express.Response) => {
+  getAllStories = (request: express.Request, response: express.Response) => {
     let storyListJSON = this.GetStoryArchive();
     response.send(JSON.stringify(storyListJSON));
   }
@@ -136,7 +136,7 @@ class StoryController {
     var fs = require('fs');
     fs.writeFile(path.resolve(__dirname + "/../resources/storyList.json")
                , JSON.stringify(storyListJSON, null, 2)
-               , function (err) {
+               , function (err: any) {
                                   if (err) console.log(err);
                                 });
   }
