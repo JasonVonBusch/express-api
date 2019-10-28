@@ -36,9 +36,18 @@ class ArtifactController {
 
   deleteArtifact = (request: express.Request, response: express.Response) => {
     let artifactListJSON = this.GetArtifactArchive();
-    //TODO: perform commands to delete an artifact
-    this.WriteArtifactArchive(artifactListJSON);
-    response.send(artifactListJSON);
+    let params = RequestBaseController.GetRequestParams(request);
+    let index = artifactListJSON.artifacts.findIndex((x: { id: string; }) => x.id === params.id);
+
+    if (index && index > 0) {
+      artifactListJSON.artifacts.splice(index, 1);
+      this.WriteArtifactArchive(artifactListJSON);
+    } else {
+      response.send("error: invalid parameters");
+    }
+
+    //respond with latest information, updated or not
+    response.send(JSON.stringify(artifactListJSON));
   }
 
   getAllArtifacts = (request: express.Request, response: express.Response) => {
