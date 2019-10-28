@@ -1,4 +1,5 @@
 import * as express      from "express";
+import { Artifact } from "../models/artifact";
 import { RequestBaseController } from "./requestbase.controller";
 import path    = require("path");
 import arcData = require("../resources/storyList.json");
@@ -22,16 +23,22 @@ class ArtifactController {
   addArtifact = (request: express.Request, response: express.Response) => {
     //get artifact information from the existing json file, if it is present
     let artifactListJSON = this.GetArtifactArchive();
-    let nextId = artifactListJSON.artifacts.length + 1;
-
-    //TODO: perform commands to add a new artifact
-    artifactListJSON.artifacts.push({"id": nextId
-                                   , "description": ""
-                                   , "location": ""
-                                   , "timestamp": Date.now.toString()}); 
-
+    let params = RequestBaseController.GetRequestParams(request);
+    let found = this.GetArtifactById(params.id);
+    
+    if (found) { response.send("error: invalid parameters"); }
+    
+    //build new story object to be added
+    let today = new Date(Date.now.toString());
+    let newArtifact = new Artifact(params.id, params.description, params.location, today)
+    
+    //add the new story to existing ones
+    artifactListJSON.aritfacts.push(newArtifact); 
+    
+    //update artifact for stories
     this.WriteArtifactArchive(artifactListJSON);
-    response.send(artifactListJSON);
+    
+    response.send(JSON.stringify(artifactListJSON));
   }
 
   deleteArtifact = (request: express.Request, response: express.Response) => {
