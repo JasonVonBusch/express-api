@@ -1,8 +1,8 @@
-import * as express      from "express";
-import { Artifact } from "../models/artifact";
+import * as express              from "express";
+import { Artifact }              from "../models/artifact";
 import { RequestBaseController } from "./requestbase.controller";
 import path    = require("path");
-import arcData = require("../resources/storyList.json");
+import arcData = require("../resources/artifactList.json");
 
 
 class ArtifactController {

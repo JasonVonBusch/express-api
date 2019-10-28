@@ -14,5 +14,6 @@ A simple API using Node.js, Express, and Typescript
 5. open up a new Chrome browser window and navigate to one of the following urls to ensure the application is running (listening on port 5000 by default, this can be changed in the *server.ts* file and running ```npm run tsc``` to compile the changes)
     * [home page](http://localhost:5000/)
     * [about page](http://localhost:5000/about)
-    * [story information](http://localhost:5000/getstories)
+    * [story information](http://localhost:5000/getallstories)
+    * [artifact information](http://localhost:5000/getallartifacts)
     

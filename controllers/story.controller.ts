@@ -1,5 +1,5 @@
-import * as express      from "express";
-import { Story }         from "../models/story";
+import * as express              from "express";
+import { Story }                 from "../models/story";
 import { RequestBaseController } from "./requestbase.controller";
 import path    = require("path");
 import arcData = require("../resources/storyList.json");
