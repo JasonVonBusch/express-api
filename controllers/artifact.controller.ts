@@ -44,7 +44,7 @@ class ArtifactController {
   deleteArtifact = (request: express.Request, response: express.Response) => {
     let artifactListJSON = this.GetArtifactArchive();
     let params = RequestBaseController.GetRequestParams(request);
-    let index = artifactListJSON.artifacts.findIndex((x: { id: string; }) => x.id === params.id);
+    let index = artifactListJSON.artifacts.findIndex((x: { id: number; }) => x.id === params.id);
 
     if (index && index > 0) {
       artifactListJSON.artifacts.splice(index, 1);
@@ -113,7 +113,7 @@ class ArtifactController {
     return JSON.parse(artifactListSTRING);
   }
 
-  private GetArtifactById(id: string) : any {
+  private GetArtifactById(id: number) : any {
     let artifactListJSON = this.GetArtifactArchive();
 
     let found = artifactListJSON.artifacts.find((artifact: { id: number; }) => {

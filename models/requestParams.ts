@@ -1,5 +1,5 @@
 class RequestParams {
-    public id: string;
+    public id: number;
     public description: string;
     public location: string;
 }

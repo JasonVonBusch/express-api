@@ -43,7 +43,7 @@ class StoryController {
   deleteStory = (request: express.Request, response: express.Response) => {
     let storyListJSON = this.GetStoryArchive();
     let params = RequestBaseController.GetRequestParams(request);
-    let index = storyListJSON.stories.findIndex((x: { id: string; }) => x.id === params.id);
+    let index = storyListJSON.stories.findIndex((x: { id: number; }) => x.id === params.id);
 
     if (index && index > 0) {
       storyListJSON.stories.splice(index, 1);
@@ -105,7 +105,7 @@ class StoryController {
     return JSON.parse(storyListSTRING);
   }
 
-  private GetStoryById(id: string) : any {
+  private GetStoryById(id: number) : any {
     let storyListJSON = this.GetStoryArchive();
 
     let found = storyListJSON.stories.find((story: { id: number; }) => {
