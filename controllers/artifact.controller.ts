@@ -62,9 +62,32 @@ class ArtifactController {
 
   updateArtifact = (request: express.Request, response: express.Response) => {
     let artifactListJSON = this.GetArtifactArchive();
-    //TODO: perform commands that will update an existing artifact
-    this.WriteArtifactArchive(artifactListJSON);
-    response.send(artifactListJSON);
+    let params = RequestBaseController.GetRequestParams(request);
+    let found = this.GetArtifactById(params.id);
+
+    if (found) {
+      console.log("success: artifact was found, updating...");
+      for (let idx = 0; idx < artifactListJSON.artifacts.length; idx++) {
+        if (artifactListJSON.artifacts[idx].id === found.id) {
+          artifactListJSON.artifacts[idx].description = params.description !== null
+                                                      ? params.description
+                                                      : artifactListJSON.artifacts[idx].description;
+          artifactListJSON.artifacts[idx].location = params.location !== null
+                                                   ? params.location
+                                                   : artifactListJSON.artifacts[idx].location;
+
+          artifactListJSON.artifacts[idx].timeStamp = Date.now.toString()
+          console.log("success: artifact updated!");
+        }
+      }
+      //update existing artifact
+      this.WriteArtifactArchive(artifactListJSON);
+    } else {
+      return response.send("error: invalid parameters");
+    }
+
+    //respond with latest information, updated or not
+    response.send(JSON.stringify(artifactListJSON));
   }
 
   //#region Private Routines
