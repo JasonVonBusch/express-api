@@ -1,6 +1,6 @@
 import * as express      from "express";
 import { Story }         from "../models/story";
-import { RequestParams } from "../models/requestParams";
+import { RequestBaseController } from "./requestbase.controller";
 import path    = require("path");
 import arcData = require("../resources/storyList.json");
 
@@ -22,7 +22,7 @@ class StoryController {
   addStory = (request: express.Request, response: express.Response) => {
     //get story information from the existing json file, if it is present
     let storyListJSON = this.GetStoryArchive();
-    let params = this.GetRequestParams(request);
+    let params = RequestBaseController.GetRequestParams(request);
     let found = this.GetStoryById(params.id);
 
     if (found) { response.send("error: invalid parameters"); }
@@ -42,7 +42,7 @@ class StoryController {
 
   deleteStory = (request: express.Request, response: express.Response) => {
     let storyListJSON = this.GetStoryArchive();
-    let params = this.GetRequestParams(request);
+    let params = RequestBaseController.GetRequestParams(request);
     let index = storyListJSON.stories.findIndex((x: { id: string; }) => x.id === params.id);
 
     if (index && index > 0) {
@@ -62,7 +62,7 @@ class StoryController {
   }
 
   getStory = (request: express.Request, response: express.Response) => {
-    let params = this.GetRequestParams(request);
+    let params = RequestBaseController.GetRequestParams(request);
     let found = this.GetStoryById(params.id);
 
     if (found) {
@@ -74,7 +74,7 @@ class StoryController {
 
   updateStory = (request: express.Request, response: express.Response) => {
     let storyListJSON = this.GetStoryArchive();
-    let params = this.GetRequestParams(request);
+    let params = RequestBaseController.GetRequestParams(request);
     let found = this.GetStoryById(params.id);
 
     if (found) {
@@ -99,22 +99,6 @@ class StoryController {
   }
 
   //#region Private Routines
-  private GetRequestParams(request: express.Request) : RequestParams {
-    let params = new RequestParams();
-    params.id = request.query.id !== null || request.query.id !== undefined
-              ? request.query.id
-              : null;
-
-    params.description = request.query.description !== null || request.query.description !== undefined
-                       ? request.query.description
-                       : null;
-
-    params.location = request.query.location !== null || request.query.location !== undefined
-                       ? request.query.location
-                       : null;
-    return params;
-  }
-
   private GetStoryArchive() : any {
     //get the json file and parse it into an object for use
     const storyListSTRING: string = JSON.stringify(arcData);

@@ -1,5 +1,8 @@
-import * as express from "express";
+import * as express      from "express";
+import { RequestBaseController } from "./requestbase.controller";
+import path    = require("path");
 import arcData = require("../resources/storyList.json");
+
 
 class ArtifactController {
   public router = express.Router();
@@ -9,10 +12,11 @@ class ArtifactController {
   }
 
   initializeRoutes() {
-    this.router.get("/addartifact"   , this.addArtifact);
-    this.router.get("/deleteartifact", this.addArtifact);
-    this.router.get("/getartifacts"  , this.getArtifacts);
-    this.router.get("/updateartifact", this.updateArtifact);
+    this.router.get("/addartifact"     , this.addArtifact);
+    this.router.get("/deleteartifact"  , this.addArtifact);
+    this.router.get("/getallartifacts" , this.getAllArtifacts);
+    this.router.get("/getartifact"     , this.getArtifact);
+    this.router.get("/updateartifact"  , this.updateArtifact);
   }
 
   addArtifact = (request: express.Request, response: express.Response) => {
@@ -20,48 +24,76 @@ class ArtifactController {
     let artifactListJSON = this.GetArtifactArchive();
     let nextId = artifactListJSON.artifacts.length + 1;
 
+    //TODO: perform commands to add a new artifact
     artifactListJSON.artifacts.push({"id": nextId
                                    , "description": ""
                                    , "location": ""
                                    , "timestamp": Date.now.toString()}); 
 
-    this.UpdateArtifactArchive(artifactListJSON);
+    this.WriteArtifactArchive(artifactListJSON);
     response.send(artifactListJSON);
   }
 
   deleteArtifact = (request: express.Request, response: express.Response) => {
     let artifactListJSON = this.GetArtifactArchive();
-    //perform commands to do the delete
-    this.UpdateArtifactArchive(artifactListJSON);
+    //TODO: perform commands to delete an artifact
+    this.WriteArtifactArchive(artifactListJSON);
     response.send(artifactListJSON);
   }
 
-  getArtifacts = (request: express.Request, response: express.Response) => {
+  getAllArtifacts = (request: express.Request, response: express.Response) => {
+    const artifactListSTRING: string = JSON.stringify(arcData);
+    response.end(artifactListSTRING);
+  }
+
+  getArtifact = (request: express.Request, response: express.Response) => {
+    let params = RequestBaseController.GetRequestParams(request);
+    let found = this.GetArtifactById(params.id);
+
+    if (found) {
+      response.send(JSON.stringify(found));
+    } else {
+      response.send("error: invalid parameters");
+    }
+
     const artifactListSTRING: string = JSON.stringify(arcData);
     response.end(artifactListSTRING);
   }
 
   updateArtifact = (request: express.Request, response: express.Response) => {
     let artifactListJSON = this.GetArtifactArchive();
-    //perform commands that will update existing records
-    this.UpdateArtifactArchive(artifactListJSON);
+    //TODO: perform commands that will update an existing artifact
+    this.WriteArtifactArchive(artifactListJSON);
     response.send(artifactListJSON);
   }
 
+  //#region Private Routines
   private GetArtifactArchive() : any {
     //get the json file and parse it into an object for use
-    return JSON.parse(arcData.toString());
+    const artifactListSTRING: string = JSON.stringify(arcData);
+    return JSON.parse(artifactListSTRING);
   }
 
-  private UpdateArtifactArchive(artifactListJSON: any){
+  private GetArtifactById(id: string) : any {
+    let artifactListJSON = this.GetArtifactArchive();
+
+    let found = artifactListJSON.artifacts.find((artifact: { id: number; }) => {
+      return artifact.id === Number(id)
+    });
+
+    return found = found.id > 0 ? found : null;
+  }
+
+  private WriteArtifactArchive(artifactListJSON: any){
     //write out json file with passed in json information
     var fs = require('fs');
-    fs.writeFile(""
+    fs.writeFile(path.resolve(__dirname + "/../resources/artifactList.json")
                , JSON.stringify(artifactListJSON, null, 2)
-               , function (err) {
+               , function (err: any) {
                                   if (err) console.log(err);
                                 });
   }
+  //#endregion
 }
 
 export { ArtifactController }
