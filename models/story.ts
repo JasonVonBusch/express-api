@@ -1,15 +1,15 @@
 class Story {
-    constructor(id: number, description: string, timeStamp: Date, ...artifactList: []){
+    constructor(id: number, description: string, timeStamp: Date, ...artifactIds: []){
         this.id = id;
         this.description = description;
         this.timeStamp = timeStamp;
-        this.artifactList = artifactList;
+        this.artifactIds = artifactIds;
     }
 
     public id: number;
     public description: string;
     public timeStamp: Date;
-    public artifactList: [];
+    public artifactIds: [];
 };
 
 export { Story };

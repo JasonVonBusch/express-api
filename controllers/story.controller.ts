@@ -34,7 +34,7 @@ class StoryController {
     //add the new story to existing ones
     storyListJSON.stories.push(newStory); 
 
-    //update artifact for stories
+    //update archive for stories
     StoryController.WriteStoryArchive(storyListJSON);
 
     response.send(JSON.stringify(storyListJSON));
@@ -88,7 +88,7 @@ class StoryController {
           console.log("success: story updated!");
         }
       }
-      //update existing artifact
+      //update existing archive
       StoryController.WriteStoryArchive(storyListJSON);
     } else {
       return response.send("error: invalid parameters");

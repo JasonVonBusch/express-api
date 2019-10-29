@@ -29,15 +29,25 @@ class MergeRecordsController {
     }
 
     Merge(id: number) : any {
-        let found = StoryController.GetStoryById(id);
-        if (found) {
+        let foundStory = StoryController.GetStoryById(id);
+        if (foundStory) {
+            let fullStory: any;
+            let storyListJSON = StoryController.GetStoryArchive();
+
             console.log("merging changes...");
-            let parentData = JSON.parse(found);
-            let childData = JSON.parse(ArtifactController.GetArtifactArchive());
+            foundStory.artifactIds.forEach((artifactId: number) => {
+                let foundArtifact = storyListJSON.artifacts.find((artifact: { id: number; }) => {
+                    return artifact.id === artifactId;
+                  });
+                  
+                if (foundArtifact) {
+                    fullStory.artifactList.push(foundArtifact);
+                } else {
+                    console.log("error: invalid artifact id");
+                }
+            });
 
-            parentData.artifactList.push(childData.artifacts);
-
-            return parentData;
+            return fullStory;
         }
         return null;
     }

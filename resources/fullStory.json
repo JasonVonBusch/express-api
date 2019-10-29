@@ -1,0 +1,21 @@
+{
+    "story":
+    {
+        "id": 0,
+        "description": "",
+        "timestamp": "",
+        "artifactList": [
+          {
+            "id": 0,
+            "description": "",
+            "location": "",
+            "timestamp": ""
+          },
+          {
+            "id": 1,
+            "description": "",
+            "location": "",
+            "timestamp": ""
+          }]
+    }
+}

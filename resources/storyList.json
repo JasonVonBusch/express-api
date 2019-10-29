@@ -4,19 +4,19 @@
       "id": 0,
       "description": "",
       "timestamp": "",
-      "artifactList": []
+      "artifactIds": []
     },
     {
       "id": 1,
       "description": "",
       "timeStamp": null,
-      "artifactList": []
+      "artifactIds": []
     },
     {
       "id": 2,
       "description": "",
       "timeStamp": null,
-      "artifactList": []
+      "artifactIds": []
     }
   ]
 }
