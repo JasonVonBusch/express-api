@@ -5,6 +5,7 @@ import { AboutController }    from "./controllers/about.controller";
 import { ArtifactController } from "./controllers/artifact.controller";
 import { HomeController }     from "./controllers/home.controller";
 import { StoryController }    from "./controllers/story.controller";
+import { MergeRecordsController }    from "./controllers/mergerecords.controller";
  
 const app = new App(
   [
@@ -13,6 +14,7 @@ const app = new App(
     new ArtifactController(),
     new HomeController(),
     new StoryController(),
+    new MergeRecordsController()
   ],
   //port to listen on
   5000,

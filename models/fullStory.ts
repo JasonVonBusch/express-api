@@ -1,15 +1,7 @@
-class FullStory {
-    constructor(id: number, description: string, timeStamp: Date, artifactList: []){
-        this.id = id;
-        this.description = description;
-        this.timeStamp = timeStamp;
-        this.artifactList = artifactList;
-    }
+import { Artifact } from "../models/artifact";
 
-    public id: number;
-    public description: string;
-    public timeStamp: Date;
-    public artifactList: [];
+class FullStory {
+    constructor(public id: number, public timeStamp: Date = new Date(), public description: string = "", public artifactList: Artifact[] = []) { }
 }
 
 export { FullStory }
