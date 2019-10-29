@@ -32,14 +32,14 @@ class MergeRecordsController {
         let foundStory = StoryController.GetStoryById(id);
         if (foundStory) {
             let fullStory: any;
-            let storyListJSON = StoryController.GetStoryArchive();
+            let artifactListJSON = ArtifactController.GetArtifactArchive();
 
             console.log("merging changes...");
             foundStory.artifactIds.forEach((artifactId: number) => {
-                let foundArtifact = storyListJSON.artifacts.find((artifact: { id: number; }) => {
+                let foundArtifact = artifactListJSON.artifacts.find((artifact: { id: number; }) => {
                     return artifact.id === artifactId;
-                  });
-                  
+                });
+
                 if (foundArtifact) {
                     fullStory.artifactList.push(foundArtifact);
                 } else {
