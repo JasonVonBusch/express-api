@@ -22,9 +22,9 @@ class ArtifactController {
 
   addArtifact = (request: express.Request, response: express.Response) => {
     //get artifact information from the existing json file, if it is present
-    let artifactListJSON = this.GetArtifactArchive();
+    let artifactListJSON = ArtifactController.GetArtifactArchive();
     let params = RequestBaseController.GetRequestParams(request);
-    let found = this.GetArtifactById(params.id);
+    let found = ArtifactController.GetArtifactById(params.id);
     
     if (found) { response.send("error: invalid parameters"); }
     
@@ -36,19 +36,19 @@ class ArtifactController {
     artifactListJSON.aritfacts.push(newArtifact); 
     
     //update artifact for stories
-    this.WriteArtifactArchive(artifactListJSON);
+    ArtifactController.WriteArtifactArchive(artifactListJSON);
     
     response.send(JSON.stringify(artifactListJSON));
   }
 
   deleteArtifact = (request: express.Request, response: express.Response) => {
-    let artifactListJSON = this.GetArtifactArchive();
+    let artifactListJSON = ArtifactController.GetArtifactArchive();
     let params = RequestBaseController.GetRequestParams(request);
     let index = artifactListJSON.artifacts.findIndex((x: { id: number; }) => x.id === params.id);
 
     if (index && index > 0) {
       artifactListJSON.artifacts.splice(index, 1);
-      this.WriteArtifactArchive(artifactListJSON);
+      ArtifactController.WriteArtifactArchive(artifactListJSON);
     } else {
       response.send("error: invalid parameters");
     }
@@ -64,7 +64,7 @@ class ArtifactController {
 
   getArtifact = (request: express.Request, response: express.Response) => {
     let params = RequestBaseController.GetRequestParams(request);
-    let found = this.GetArtifactById(params.id);
+    let found = ArtifactController.GetArtifactById(params.id);
 
     if (found) {
       response.send(JSON.stringify(found));
@@ -77,9 +77,9 @@ class ArtifactController {
   }
 
   updateArtifact = (request: express.Request, response: express.Response) => {
-    let artifactListJSON = this.GetArtifactArchive();
+    let artifactListJSON = ArtifactController.GetArtifactArchive();
     let params = RequestBaseController.GetRequestParams(request);
-    let found = this.GetArtifactById(params.id);
+    let found = ArtifactController.GetArtifactById(params.id);
 
     if (found) {
       console.log("success: artifact was found, updating...");
@@ -97,7 +97,7 @@ class ArtifactController {
         }
       }
       //update existing artifact
-      this.WriteArtifactArchive(artifactListJSON);
+      ArtifactController.WriteArtifactArchive(artifactListJSON);
     } else {
       return response.send("error: invalid parameters");
     }
@@ -107,13 +107,13 @@ class ArtifactController {
   }
 
   //#region Private Routines
-  private GetArtifactArchive() : any {
+  static GetArtifactArchive() : any {
     //get the json file and parse it into an object for use
     const artifactListSTRING: string = JSON.stringify(arcData);
     return JSON.parse(artifactListSTRING);
   }
 
-  private GetArtifactById(id: number) : any {
+  static GetArtifactById(id: number) : any {
     let artifactListJSON = this.GetArtifactArchive();
 
     let found = artifactListJSON.artifacts.find((artifact: { id: number; }) => {
@@ -123,7 +123,7 @@ class ArtifactController {
     return found = found.id > 0 ? found : null;
   }
 
-  private WriteArtifactArchive(artifactListJSON: any){
+  static WriteArtifactArchive(artifactListJSON: any){
     //write out json file with passed in json information
     var fs = require('fs');
     fs.writeFile(path.resolve(__dirname + "/../resources/artifactList.json")

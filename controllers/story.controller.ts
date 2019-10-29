@@ -21,11 +21,11 @@ class StoryController {
 
   addStory = (request: express.Request, response: express.Response) => {
     //get story information from the existing json file, if it is present
-    let storyListJSON = this.GetStoryArchive();
+    let storyListJSON = StoryController.GetStoryArchive();
     let params = RequestBaseController.GetRequestParams(request);
-    let found = this.GetStoryById(params.id);
+    let found = StoryController.GetStoryById(params.id);
 
-    if (found) { response.send("error: invalid parameters"); }
+    if (!found) { response.send("error: invalid parameters"); }
 
     //build new story object to be added
     let today = new Date(Date.now.toString());
@@ -35,19 +35,19 @@ class StoryController {
     storyListJSON.stories.push(newStory); 
 
     //update artifact for stories
-    this.WriteStoryArchive(storyListJSON);
+    StoryController.WriteStoryArchive(storyListJSON);
 
     response.send(JSON.stringify(storyListJSON));
   }
 
   deleteStory = (request: express.Request, response: express.Response) => {
-    let storyListJSON = this.GetStoryArchive();
+    let storyListJSON = StoryController.GetStoryArchive();
     let params = RequestBaseController.GetRequestParams(request);
     let index = storyListJSON.stories.findIndex((x: { id: number; }) => x.id === params.id);
 
     if (index && index > 0) {
       storyListJSON.stories.splice(index, 1);
-      this.WriteStoryArchive(storyListJSON);
+      StoryController.WriteStoryArchive(storyListJSON);
     } else {
       response.send("error: invalid parameters");
     }
@@ -57,13 +57,13 @@ class StoryController {
   }
 
   getAllStories = (request: express.Request, response: express.Response) => {
-    let storyListJSON = this.GetStoryArchive();
+    let storyListJSON = StoryController.GetStoryArchive();
     response.send(JSON.stringify(storyListJSON));
   }
 
   getStory = (request: express.Request, response: express.Response) => {
     let params = RequestBaseController.GetRequestParams(request);
-    let found = this.GetStoryById(params.id);
+    let found = StoryController.GetStoryById(params.id);
 
     if (found) {
       response.send(JSON.stringify(found));
@@ -73,9 +73,9 @@ class StoryController {
   }
 
   updateStory = (request: express.Request, response: express.Response) => {
-    let storyListJSON = this.GetStoryArchive();
+    let storyListJSON = StoryController.GetStoryArchive();
     let params = RequestBaseController.GetRequestParams(request);
-    let found = this.GetStoryById(params.id);
+    let found = StoryController.GetStoryById(params.id);
 
     if (found) {
       console.log("success: story was found, updating...");
@@ -89,7 +89,7 @@ class StoryController {
         }
       }
       //update existing artifact
-      this.WriteStoryArchive(storyListJSON);
+      StoryController.WriteStoryArchive(storyListJSON);
     } else {
       return response.send("error: invalid parameters");
     }
@@ -99,13 +99,13 @@ class StoryController {
   }
 
   //#region Private Routines
-  private GetStoryArchive() : any {
+  static GetStoryArchive() : any {
     //get the json file and parse it into an object for use
     const storyListSTRING: string = JSON.stringify(arcData);
     return JSON.parse(storyListSTRING);
   }
 
-  private GetStoryById(id: number) : any {
+  static GetStoryById(id: number) : any {
     let storyListJSON = this.GetStoryArchive();
 
     let found = storyListJSON.stories.find((story: { id: number; }) => {
@@ -115,7 +115,7 @@ class StoryController {
     return found = found.id > 0 ? found : null;
   }
 
-  private WriteStoryArchive(storyListJSON: any){
+  static WriteStoryArchive(storyListJSON: any){
     //write out json file with passed in json information
     var fs = require('fs');
     fs.writeFile(path.resolve(__dirname + "/../resources/storyList.json")
