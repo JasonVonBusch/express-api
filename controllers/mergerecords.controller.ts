@@ -9,10 +9,12 @@ import { StoryController }       from "./story.controller";
 class MergeRecordsController {
     public router = express.Router();
 
-    constructor() { }
+    constructor() {
+        this.InitializeRoutes()
+    }
 
     InitializeRoutes() {
-        this.router.get("", this.getFullStory)
+        this.router.get("/getfullstory", this.getFullStory)
     }
 
     getFullStory = (request: express.request, response: express.response) => {
@@ -34,6 +36,7 @@ class MergeRecordsController {
             let childData = JSON.parse(ArtifactController.GetArtifactArchive());
 
             parentData.artifactList.push(childData.artifacts);
+
             return parentData;
         }
         return null;
