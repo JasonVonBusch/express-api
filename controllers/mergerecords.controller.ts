@@ -5,6 +5,7 @@ import * as express              from "express";
 import { ArtifactController }    from "./artifact.controller";
 import { RequestBaseController } from "./requestbase.controller";
 import { StoryController }       from "./story.controller";
+import { Artifact } from "../models/artifact";
 
 class MergeRecordsController {
     public router = express.Router();
@@ -41,7 +42,9 @@ class MergeRecordsController {
                 });
 
                 if (foundArtifact) {
-                    fullStory.artifactList.push(foundArtifact);
+                    let today = new Date(Date.now.toString());
+                    let newArtifact = new Artifact(foundArtifact.id, foundArtifact.description, foundArtifact.location, today)
+                    fullStory.artifactList.push(newArtifact);
                 } else {
                     console.log("error: invalid artifact id");
                 }
