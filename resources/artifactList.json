@@ -1,5 +1,6 @@
 {
-  "artifacts": [
+    "description": "this is an archive and gets updated accordingly",
+    "artifacts": [
     {
       "id": 0,
       "description": "",

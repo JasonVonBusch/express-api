@@ -1,4 +1,5 @@
 {
+    "description": "this is an example file and shouldn't be used as an archive",
     "story":
     {
         "id": 0,
@@ -7,12 +8,6 @@
         "artifactList": [
           {
             "id": 0,
-            "description": "",
-            "location": "",
-            "timestamp": ""
-          },
-          {
-            "id": 1,
             "description": "",
             "location": "",
             "timestamp": ""
