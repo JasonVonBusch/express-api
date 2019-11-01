@@ -1,7 +1,7 @@
-class RequestParams {
-    public id: number;
-    public description: string;
-    public location: string;
+interface IRequestParams {
+    id: number;
+    description: string;
+    location: string;
 }
 
-export {RequestParams};
+export {IRequestParams};

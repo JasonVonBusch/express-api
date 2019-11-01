@@ -1,5 +1,5 @@
 import * as express from "express";
-import { About } from "../models/about";
+import { IAbout } from "../models/about";
 
 class AboutController {
   public path = "/about";
@@ -14,7 +14,9 @@ class AboutController {
   }
 
   getAboutPage = (request: express.Request, response: express.Response) => {
-    let about = new About(this.Title(), this.Description());
+    let about: IAbout = {Title      : this.Title(),
+                         Description: this.Description()};
+   
     response.send(about);
   }
 

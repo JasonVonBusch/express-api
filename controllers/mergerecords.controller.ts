@@ -2,9 +2,9 @@
 //passing in the story id and returning all the information related
 //to the story including artifacts in a format defined by the datatype
 import * as express              from "express";
-import { Artifact }              from "../models/artifact";
+import { IArtifact }              from "../models/artifact";
 import { ArtifactController }    from "./artifact.controller";
-import { FullStory }              from "../models/fullStory";
+import { IFullStory }              from "../models/fullStory";
 import { RequestBaseController } from "./requestbase.controller";
 import { StoryController }       from "./story.controller";
 
@@ -33,7 +33,10 @@ class MergeRecordsController {
     Merge(id: number) : any {
         let foundStory = StoryController.GetStoryById(id);
         if (foundStory) {
-            let returnObj = new FullStory(id, foundStory.timestamp, foundStory.description);
+            let returnObj: IFullStory ={id          : id,
+                                        timeStamp   : foundStory.timestamp,
+                                        description : foundStory.description,
+                                        artifactList: []};
             let artifactListJSON = ArtifactController.GetArtifactArchive();
 
             console.log("merging changes...");
@@ -44,7 +47,10 @@ class MergeRecordsController {
 
                 if (foundArtifact) {
                     let today = new Date(Date.now.toString());
-                    let newArtifact = new Artifact(foundArtifact.id, foundArtifact.description, foundArtifact.location, today)
+                    let newArtifact: IArtifact = {id: foundArtifact.id,
+                                                  description: foundArtifact.description,
+                                                  location: foundArtifact.location,
+                                                  timeStamp: today};
                     returnObj.artifactList.push(newArtifact);
                 } else {
                     console.log("error: invalid artifact id");

@@ -1,7 +1,10 @@
-import { Artifact } from "../models/artifact";
+import { IArtifact } from "../models/artifact";
 
-class FullStory {
-    constructor(public id: number, public timeStamp: Date = new Date(), public description: string = "", public artifactList: Artifact[] = []) { }
+interface IFullStory {
+    id: number;
+    timeStamp: Date;
+    description: string;
+    artifactList: IArtifact[];
 }
 
-export { FullStory }
+export { IFullStory }

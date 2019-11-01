@@ -1,15 +1,8 @@
-class Story {
-    constructor(id: number, description: string, timeStamp: Date, ...artifactIds: []){
-        this.id = id;
-        this.description = description;
-        this.timeStamp = timeStamp;
-        this.artifactIds = artifactIds;
-    }
-
-    public id: number;
-    public description: string;
-    public timeStamp: Date;
-    public artifactIds: [];
+interface IStory {
+    id: number;
+    description: string;
+    timeStamp: Date;
+    artifactIds: [];
 };
 
-export { Story };
+export { IStory };

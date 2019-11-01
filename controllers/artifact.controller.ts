@@ -1,5 +1,5 @@
 import * as express              from "express";
-import { Artifact }              from "../models/artifact";
+import { IArtifact }              from "../models/artifact";
 import { RequestBaseController } from "./requestbase.controller";
 import path    = require("path");
 import arcData = require("../resources/artifactList.json");
@@ -30,7 +30,10 @@ class ArtifactController {
     
     //build new story object to be added
     let today = new Date(Date.now.toString());
-    let newArtifact = new Artifact(params.id, params.description, params.location, today)
+    let newArtifact: IArtifact ={id         : params.id,
+                                 description: params.description,
+                                 location   : params.location,
+                                 timeStamp  : today};
     
     //add the new story to existing ones
     artifactListJSON.aritfacts.push(newArtifact); 
