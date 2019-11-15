@@ -1,9 +1,9 @@
-# Sample Express Application
+# Application API
 
 ## Summary
 A simple API using Node.js, Express, Typescript, Chai and Cucumber. There are also ```~.json``` files that make up the artifacts to be read and written to.
 
-### Running the application
+### Run the application
 
 1. open up a new bash terminal window
 2. navigate to the _express-api_ directory in the terminal
@@ -24,10 +24,11 @@ A simple API using Node.js, Express, Typescript, Chai and Cucumber. There are al
     * don't include extra tests without a ```Scenario``` created because this can cause unnecessary cleanup later
     * each ```Scenario``` should have a ```~.steps.js``` file for better organization and to not produce errors when they don't have a matching ```feature\step``` relationship
 
-### Running tests
+### Run tests
 1. open up a new bash terminal window
 2. navigate to the _express-api_ directory in the terminal
 3. run ```npm run tsc``` to compile the typescript files into the _dist_ directory
 4. run ```npm run test```
+    * results will be displayed in the bash terminal window once the run is complete
 
     
