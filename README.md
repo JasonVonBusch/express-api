@@ -17,16 +17,14 @@ A simple API using Node.js, Express, and Typescript
     * [story information](http://localhost:5000/getallstories)
     * [artifact information](http://localhost:5000/getallartifacts)
 
-## Tests
-
-### Setup
+### Setup tests
 1. files should be placed under features folder
     * Cucumber will flatten out the ```features/``` directory to match up ```.feature``` files with their respective ```.js``` files.
 2. for each ```Scenario``` there should be tests written
     * don't include extra tests without a ```Scenario``` created because this can cause unnecessary cleanup later
     * each ```Scenario``` should have a ```~.steps.js``` file for better organization and to not produce errors when they don't have a matching ```feature\step``` relationship
 
-### Running
+### Running tests
 1. open up a new bash terminal window
 2. navigate to the _express-api_ directory in the terminal
 3. run ```npm run tsc``` to compile the typescript files into the _dist_ directory
