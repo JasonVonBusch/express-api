@@ -1,7 +1,7 @@
 # Sample Express Application
 
 ## Summary
-A simple API using Node.js, Express, Typescript, Chai and Cucumber
+A simple API using Node.js, Express, Typescript, Chai and Cucumber. There are also ```~.json``` files that make up the artifacts to be read and written to.
 
 ### Running the application
 
