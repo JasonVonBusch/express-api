@@ -1,11 +1,11 @@
 import { App } from './app';
 
 //import controllers
-import { AboutController }    from "./controllers/about.controller";
-import { ArtifactController } from "./controllers/artifact.controller";
-import { HomeController }     from "./controllers/home.controller";
-import { StoryController }    from "./controllers/story.controller";
-import { MergeRecordsController }    from "./controllers/mergerecords.controller";
+import { AboutController }        from "./controllers/about.controller";
+import { ArtifactController }     from "./controllers/artifact.controller";
+import { HomeController }         from "./controllers/home.controller";
+import { StoryController }        from "./controllers/story.controller";
+import { MergeRecordsController } from "./controllers/mergerecords.controller";
  
 const app = new App(
   [

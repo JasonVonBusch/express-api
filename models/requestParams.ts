@@ -4,4 +4,4 @@ interface IRequestParams {
     location: string;
 }
 
-export {IRequestParams};
+export { IRequestParams };
