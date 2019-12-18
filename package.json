@@ -8,19 +8,25 @@
     {
       "name": "Wayne Ritchie",
       "email": "wayne.ritchie@nelnet.net"
+    },
+    {
+      "name": "Jason Von Busch",
+      "email": "jason.vonbusch@nelnet.net"
     }
   ],
   "version": "1.0.0",
   "scripts": {
     "start": "nodemon server.ts",
     "test": "tsc && cucumber-js features/",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "build": "npm run compile && npm run test"
   },
   "dependencies": {
     "@types/chai": "^4.2.3",
     "@types/cucumber": "^4.0.7",
     "chai": "^4.2.0",
     "chalk": "^2.4.2",
+    "cors": "^2.8.5",
     "cucumber": "^6.0.2",
     "express": "^4.17.1"
   },

@@ -3,19 +3,19 @@
     "stories": [
     {
       "id": 0,
-      "description": "",
+      "description": "Story 0",
       "timestamp": "",
       "artifactIds": [0]
     },
     {
       "id": 1,
-      "description": "",
+      "description": "Story 1",
       "timeStamp": null,
       "artifactIds": [0]
     },
     {
       "id": 2,
-      "description": "",
+      "description": "Story 2",
       "timeStamp": null,
       "artifactIds": [0]
     }

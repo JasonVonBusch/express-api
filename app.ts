@@ -1,5 +1,6 @@
 const express = require("express");
-const chalk = require("chalk");
+const chalk   = require("chalk");
+const cors    = require("cors");
 
 //const app = express();
 //const port = process.env.PORT || 3000;
@@ -41,6 +42,8 @@ class App {
   private initializeControllers(controllers) {
     controllers.forEach((controller) => {
       this.app.use('/', controller.router);
+      this.app.use(cors());
+      this.app.options('*', cors());
     });
   }
 

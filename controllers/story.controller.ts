@@ -1,5 +1,5 @@
 import * as express              from "express";
-import { IStory }                 from "../models/story";
+import { IStory }                from "../models/story";
 import { RequestBaseController } from "./requestbase.controller";
 import path    = require("path");
 import arcData = require("../resources/storyList.json");
@@ -115,7 +115,7 @@ class StoryController {
       return story.id === Number(id)
     });
 
-    return found = found.id > 0 ? found : null;
+    return found = found.id > -1 ? found : null;
   }
 
   static WriteStoryArchive(storyListJSON: any){
