@@ -3,7 +3,8 @@
         "module": "commonjs",
         "outDir": "dist",
         "sourceMap": true,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "experimentalDecorators": true
     },
     "exclude": [
         "node_modules"

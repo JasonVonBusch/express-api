@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 const express = require("express");
 const chalk   = require("chalk");
 const cors    = require("cors");

@@ -1,6 +1,8 @@
 import * as express              from "express";
 import { IStory }                from "../models/story";
 import { RequestBaseController } from "./requestbase.controller";
+import { createConnection }      from "typeorm";
+import { Story }                 from "../database/entity/story.entity";
 import path    = require("path");
 import arcData = require("../resources/storyList.json");
 
@@ -103,6 +105,34 @@ class StoryController {
 
   //#region Private Routines
   static GetStoryArchive() : any {
+    createConnection({
+      type: "postgres",
+      host: "localhost",
+      port: 5432,
+      username: "postgres",
+      password: "postgres",
+      database: "postgres",
+      entities: [
+        __dirname + '\\..\\database\\entity\\*.entity.js',
+      ],
+      synchronize: true,
+      logging: false
+    }).then(async connection => {
+      // here you can start to work with your entities
+      let repo = await connection.getRepository(Story);      
+      let repoStories = await repo.find();      
+      let managerStories = await connection.manager.find(Story);      
+
+      // let allStories = await repo.find();
+      console.log("All stories from the repo: ", repoStories);
+      console.log("All stories from the manager: ", managerStories);
+
+      // close the connection
+      connection.close();
+    }).catch(error => console.log(error));
+
+
+
     //get the json file and parse it into an object for use
     const storyListSTRING: string = JSON.stringify(arcData);
     return JSON.parse(storyListSTRING);
