@@ -2,15 +2,15 @@ import { Entity, Column, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Story {
-    @PrimaryColumn()
+    @PrimaryColumn("numeric")
     id: number;
 
-    @Column()
+    @Column("text")
     description: string;
 
-    @Column()
+    @Column("numeric")
     artifactIds: [];
 
-    @Column()
+    @Column("date")
     timeStamp: Date;
 };

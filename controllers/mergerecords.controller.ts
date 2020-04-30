@@ -30,8 +30,8 @@ class MergeRecordsController {
         }
     }
 
-    Merge(id: number) : any {
-        let foundStory = StoryController.GetStoryById(id);
+    async Merge(id: number) : Promise<any> {
+        let foundStory = await StoryController.GetStoryById(id);
         if (foundStory) {
             let returnObj: IFullStory ={id          : id,
                                         timeStamp   : foundStory.timestamp,

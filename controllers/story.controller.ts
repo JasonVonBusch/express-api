@@ -1,8 +1,8 @@
 import * as express              from "express";
 import { IStory }                from "../models/story";
 import { RequestBaseController } from "./requestbase.controller";
-import { createConnection }      from "typeorm";
 import { Story }                 from "../database/entity/story.entity";
+import { Communication }         from "../database/communication"
 import path    = require("path");
 import arcData = require("../resources/storyList.json");
 
@@ -21,9 +21,9 @@ class StoryController {
     this.router.get("/updatestory"   , this.updateStory);
   }
 
-  addStory = (request: express.Request, response: express.Response) => {
+  addStory = async (request: express.Request, response: express.Response) => {
     //get story information from the existing json file, if it is present
-    let storyListJSON = StoryController.GetStoryArchive();
+    let storyListJSON = await StoryController.GetStoryArchive();
     let params = RequestBaseController.GetRequestParams(request);
     let found = StoryController.GetStoryById(params.id);
 
@@ -45,8 +45,8 @@ class StoryController {
     response.send(JSON.stringify(storyListJSON));
   }
 
-  deleteStory = (request: express.Request, response: express.Response) => {
-    let storyListJSON = StoryController.GetStoryArchive();
+  deleteStory = async (request: express.Request, response: express.Response) => {
+    let storyListJSON = await StoryController.GetStoryArchive();
     let params = RequestBaseController.GetRequestParams(request);
     let index = storyListJSON.stories.findIndex((x: { id: number; }) => x.id === params.id);
 
@@ -77,10 +77,10 @@ class StoryController {
     }
   }
 
-  updateStory = (request: express.Request, response: express.Response) => {
-    let storyListJSON = StoryController.GetStoryArchive();
+  updateStory = async (request: express.Request, response: express.Response) => {
+    let storyListJSON = await StoryController.GetStoryArchive();
     let params = RequestBaseController.GetRequestParams(request);
-    let found = StoryController.GetStoryById(params.id);
+    let found = await StoryController.GetStoryById(params.id);
 
     if (found) {
       console.log("success: story was found, updating...");
@@ -104,42 +104,37 @@ class StoryController {
   }
 
   //#region Private Routines
-  static GetStoryArchive() : any {
-    createConnection({
-      type: "postgres",
-      host: "localhost",
-      port: 5432,
-      username: "postgres",
-      password: "postgres",
-      database: "postgres",
-      entities: [
-        __dirname + '\\..\\database\\entity\\*.entity.js',
-      ],
-      synchronize: true,
-      logging: false
-    }).then(async connection => {
-      // here you can start to work with your entities
-      let repo = await connection.getRepository(Story);      
-      let repoStories = await repo.find();      
-      let managerStories = await connection.manager.find(Story);      
+  static async GetStoryArchive() : Promise<any> {
+    let storyListSTRING: string;
 
-      // let allStories = await repo.find();
-      console.log("All stories from the repo: ", repoStories);
-      console.log("All stories from the manager: ", managerStories);
+    return await Communication.GetConnection().then(connection =>{
+      // get items using a repository
+      let repo = connection.getRepository(Story)
+      repo.find().then((results: any) => {
+        storyListSTRING = JSON.stringify(results);
+        console.log("All stories from the repo: ", results);
+
+        //get the json file and parse it into an object for use
+        return JSON.parse(storyListSTRING);
+      });
+
+      // get items using a manager
+      connection.manager.find(Story).then((results: any) => {
+        storyListSTRING = JSON.stringify(results);
+        console.log("All stories from the manager: ", results);
+
+        //get the json file and parse it into an object for use
+        return JSON.parse(storyListSTRING);
+      });
 
       // close the connection
-      connection.close();
-    }).catch(error => console.log(error));
+      // connection.close();
+    });
 
-
-
-    //get the json file and parse it into an object for use
-    const storyListSTRING: string = JSON.stringify(arcData);
-    return JSON.parse(storyListSTRING);
   }
 
-  static GetStoryById(id: number) : any {
-    let storyListJSON = this.GetStoryArchive();
+  static async GetStoryById(id: number) : Promise<any> {
+    let storyListJSON = await this.GetStoryArchive();
 
     let found = storyListJSON.stories.find((story: { id: number; }) => {
       return story.id === Number(id)
