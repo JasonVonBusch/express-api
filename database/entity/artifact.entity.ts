@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn } from "typeorm";
 import { IArtifact }                     from "../../models/artifact";
 
 @Entity()
-export class ArtifactEntity implements IArtifact {
+export class Artifact implements IArtifact {
     @PrimaryColumn("numeric")
     id: number;
 

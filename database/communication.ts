@@ -1,4 +1,6 @@
 import { createConnection, Connection } from "typeorm";
+// import { Artifact } from "./entity/artifact.entity";
+import { Story } from "./entity/story.entity";
 
 export class Communication {
     static async GetConnection() {
@@ -10,7 +12,9 @@ export class Communication {
                         password: "postgres",
                         database: "postgres",
                         entities: [
-                            __dirname + '\\..\\database\\entity\\*.entity.js',
+                            // __dirname + './entity/*.entity.js',
+                            // Artifact,
+                            Story
                         ],
                         synchronize: true,
                         logging: false

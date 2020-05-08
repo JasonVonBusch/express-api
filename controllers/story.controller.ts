@@ -68,7 +68,7 @@ class StoryController {
 
   getStory = (request: express.Request, response: express.Response) => {
     let params = RequestBaseController.GetRequestParams(request);
-    let found = StoryController.GetStoryById(params.id);
+    let found  = StoryController.GetStoryById(params.id);
 
     if (found) {
       response.send(JSON.stringify(found));
@@ -116,21 +116,27 @@ class StoryController {
 
         //get the json file and parse it into an object for use
         return JSON.parse(storyListSTRING);
+      }).then(() => {
+        connection.close();
+      }).catch((error: any) => {
+        console.log(error)
+        return null;
       });
 
       // get items using a manager
-      connection.manager.find(Story).then((results: any) => {
-        storyListSTRING = JSON.stringify(results);
-        console.log("All stories from the manager: ", results);
+      // connection.manager.find(Story).then((results: any) => {
+      //   storyListSTRING = JSON.stringify(results);
+      //   console.log("All stories from the manager: ", results);
 
-        //get the json file and parse it into an object for use
-        return JSON.parse(storyListSTRING);
-      });
-
-      // close the connection
-      // connection.close();
+      //   //get the json file and parse it into an object for use
+      //   return JSON.parse(storyListSTRING);
+      // }).then(() => {
+      //   connection.close();
+      // }).catch((error: any) => {
+      //   console.log(error)
+      //   return null;
+      // });
     });
-
   }
 
   static async GetStoryById(id: number) : Promise<any> {

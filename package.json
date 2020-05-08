@@ -16,7 +16,7 @@
   ],
   "version": "1.0.0",
   "scripts": {
-    "start": "nodemon server.ts",
+    "start": "npm run tsc && nodemon server.ts",
     "test": "tsc && cucumber-js features/",
     "tsc": "tsc",
     "build": "npm run compile && npm run test"
